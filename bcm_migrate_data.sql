@@ -19,8 +19,8 @@ INSERT into orders (ORDER_REF, ORDER_DATE, SUPPLIER_ID)
 SELECT DISTINCT left(ORDER_REF,5), STR_TO_DATE(convert_date(ORDER_DATE),'%d-%m-%Y'), (SELECT supplier_id from suppliers WHERE suppliers.supplier_name = xxbcm_order_mgt.SUPPLIER_NAME) as invoice_id from xxbcm_order_mgt where invoice_reference is not null;
 
 
-insert into invoice_details (invoice_details_amount, invoice_details_date, invoice_details_status,invoice_id)
-SELECT correctsNum(INVOICE_AMOUNT), STR_TO_DATE(convert_date(INVOICE_DATE),'%d-%m-%Y'), invoice_status,(SELECT invoice_id from invoices where xxbcm_order_mgt.INVOICE_REFERENCE = invoices.invoice_ref) from xxbcm_order_mgt where xxbcm_order_mgt.INVOICE_REFERENCE is not null;
+insert into invoice_details (invoice_details_amount, invoice_details_date, invoice_details_status, invoice_details_hold_reason, invoice_id)
+SELECT correctsNum(INVOICE_AMOUNT), STR_TO_DATE(convert_date(INVOICE_DATE),'%d-%m-%Y'), invoice_status, invoice_hold_reason,(SELECT invoice_id from invoices where xxbcm_order_mgt.INVOICE_REFERENCE = invoices.invoice_ref) from xxbcm_order_mgt where xxbcm_order_mgt.INVOICE_REFERENCE is not null;
 
 
 insert into order_items (ORDER_ITEM_DESCRIPTION, ORDER_ITEM_STATUS, ORDER_ITEM_LINE_AMOUNT, ORDER_ITEM_TOTAL_AMOUNT, INVOICE_ID, ORDER_ID)
